@@ -3,7 +3,7 @@ package dk.dtu.compute.course02324.assignment3.lists.uses;
 
 import dk.dtu.compute.course02324.assignment3.lists.implementations.BubbleSort;
 import dk.dtu.compute.course02324.assignment3.lists.implementations.GenericComparator;
-import dk.dtu.compute.course02324.assignment3.lists.types.List;
+import java.util.List;
 
 import java.util.Comparator;
 
@@ -14,6 +14,7 @@ import java.util.Comparator;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class TestLists {
+    /*
 
     public static Comparator<Person> comparator = new GenericComparator<>();
 
@@ -67,5 +68,6 @@ public class TestLists {
             System.out.println(i + ": " + list.get(i));
         }
     }
+     */
 
 }

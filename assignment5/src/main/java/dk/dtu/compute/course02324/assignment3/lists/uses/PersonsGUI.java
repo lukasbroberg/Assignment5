@@ -2,7 +2,9 @@ package dk.dtu.compute.course02324.assignment3.lists.uses;
 
 
 import dk.dtu.compute.course02324.assignment3.lists.implementations.GenericComparator;
-import dk.dtu.compute.course02324.assignment3.lists.types.List;
+
+import java.util.List;
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;

@@ -1,7 +1,8 @@
 package dk.dtu.compute.course02324.assignment3.lists.uses;
 
 
-import dk.dtu.compute.course02324.assignment3.lists.types.List;
+import java.util.List;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -63,7 +64,7 @@ public class PersonsApp extends Application {
     /**
      * Methods for creating the menu bar of the application. This menu
      * bar has a single menu, where the user can change between an
-     * {@link SortedArrayList} or an {@link ArrayList} implementation
+     * implementation
      * to be tested.
      *
      * @return the menubar for choosing the type of implementation
@@ -86,8 +87,9 @@ public class PersonsApp extends Application {
         MenuItem sortedListItem = new MenuItem("sorted List");
         sortedListItem.setOnAction(
                 e -> {
-                    List<Person> list = new SortedArrayList<>();
-                    switchImpl(list);
+//                    List<Person> list = new SortedArrayList<>();
+//                    todo lamda function for sorted arraylist
+//                    switchImpl(list);
                 }
         );
         selectMenu.getItems().add(sortedListItem);
