@@ -7,7 +7,8 @@ public class Person implements Comparable<Person> {
     final public String name;
 
     final public double weight;
-    final public int age;
+
+    private int age;
 
     Person(@NotNull String name, @NotNull double weight,@NotNull int age) {
         if (name == null || weight <= 0) {
@@ -19,15 +20,7 @@ public class Person implements Comparable<Person> {
         this.age = age;
     }
 
-    public String getName(){
-        return name;
-    }
-    public double getWeight(){
-        return weight;
-    }
-    public int getAge(){
-        return age;
-    }
+
     @Override
     public int compareTo(@NotNull Person o) {
         if (o == null) {
@@ -40,6 +33,20 @@ public class Person implements Comparable<Person> {
         }
         //Return the "sign" of the biggest weight - either -1, 0 or 1
         return (int)Math.signum(this.weight-o.weight);
+    }
+    public String getName(){
+        return name;
+    }
+    public double getWeight(){
+        return weight;
+    }
+
+    public int getAge(){
+        return this.age;
+    }
+
+    public void setAge(int age){
+        this.age = age;
     }
 
     /**

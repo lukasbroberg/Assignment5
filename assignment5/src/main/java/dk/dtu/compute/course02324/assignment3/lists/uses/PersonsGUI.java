@@ -62,6 +62,10 @@ public class PersonsGUI extends GridPane {
         TextField weightField = new TextField();
         weightField.setPrefColumnCount(5);
 
+        // weight filed for user entering a name
+        TextField ageField = new TextField();
+        ageField.setPrefColumnCount(5);
+
         // given Index filed for user entering a name
         TextField givenIndexField = new TextField();
         givenIndexField.setPrefColumnCount(5);
@@ -72,7 +76,7 @@ public class PersonsGUI extends GridPane {
         addButton.setOnAction(
                 e -> {
                     try{
-                        Person person = new Person(field.getText(), Double.parseDouble(weightField.getText()));
+                        Person person = new Person(field.getText(), Double.parseDouble(weightField.getText()), Integer.parseInt(ageField.getText()));
                         //Person person = new Person(field.getText(), weightCount++);
                         persons.add(person);
                         // makes sure that the GUI is updated accordingly
@@ -89,7 +93,7 @@ public class PersonsGUI extends GridPane {
                 e -> {
                     try{
                         //Define new person
-                        Person person = new Person(field.getText(), Double.parseDouble(weightField.getText()));
+                        Person person = new Person(field.getText(), Double.parseDouble(weightField.getText()),Integer.parseInt(ageField.getText()));
                         //Add at given index
                         persons.add(Integer.parseInt(givenIndexField.getText()), person);
                         update();
