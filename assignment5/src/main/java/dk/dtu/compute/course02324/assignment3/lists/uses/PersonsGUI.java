@@ -147,16 +147,21 @@ public class PersonsGUI extends GridPane {
             //Weight
             Label labelWeight = new Label("Weight");
             VBox weightBox = new VBox(labelWeight, weightField);
+
+            //Age
+            Label labelAge = new Label("Age");
+            VBox ageBox = new VBox(labelAge, ageField);
+
             //Combined
-            HBox nameWeightBox = new HBox(nameBox, weightBox);
-            nameWeightBox.setSpacing(5.0);
+            HBox nameWeightAgeBox = new HBox(nameBox, weightBox, ageBox);
+        nameWeightAgeBox.setSpacing(5.0);
 
         //At given indedx UI
             HBox atGivenIndexBox = new HBox(AddOnIndexButton, givenIndexField);
             atGivenIndexBox.setSpacing(5.0);
 
         //Main vertical box (left)
-        VBox actionBox = new VBox(nameWeightBox, addButton, atGivenIndexBox, sortButton, clearButton, averageAndMostOccBox);
+        VBox actionBox = new VBox(nameWeightAgeBox, addButton, atGivenIndexBox, sortButton, clearButton, averageAndMostOccBox);
         actionBox.setSpacing(10.0);
         this.add(actionBox, 0, 0);
 
