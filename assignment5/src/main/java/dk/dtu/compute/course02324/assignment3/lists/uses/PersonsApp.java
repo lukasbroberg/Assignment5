@@ -87,9 +87,17 @@ public class PersonsApp extends Application {
         MenuItem sortedListItem = new MenuItem("sorted List");
         sortedListItem.setOnAction(
                 e -> {
-//                    List<Person> list = new SortedArrayList<>();
-//                    todo lamda function for sorted arraylist
-//                    switchImpl(list);
+                    List<Person> unsortedList = new ArrayList<>();
+                    List<Person> sortedList = new ArrayList<Person>(){
+                        @Override
+                       public boolean add(Person p){
+                            boolean added = super.add(p);
+                            this.sort((p1,p2)->p1.getName().compareToIgnoreCase(p2.getName()));
+                            return added;
+                        }
+                    };
+
+                  switchImpl(sortedList);
                 }
         );
         selectMenu.getItems().add(sortedListItem);
