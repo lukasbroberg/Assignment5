@@ -227,15 +227,17 @@ public class PersonsGUI extends GridPane {
         exceptionLabel.setText("");
 
         //Update average
-        double average = updateAverage();
-        averageLabel.setText(String.format("Average weight:\n %.2f kg", average));
+        averageLabel.setText(String.format("Average weight:\n %.2f kg", (persons.stream()
+                .mapToDouble(persons -> persons.weight)
+                .sum())/ persons.size()
+        ));
         //Update most occuring
         String mostOcc = mostOccuring();
         mostOccuringLabel.setText(String.format("Most occuring name:\n %s", mostOcc));
 
         //Update min and max with stream
         maxAgeLabel.setText("Max age: " + persons.stream()
-                .mapToInt(person -> person.getAge() )
+                .mapToInt(person -> person.getAge())
                 .max()
         );
 
@@ -248,28 +250,12 @@ public class PersonsGUI extends GridPane {
     }
 
     /**
-    This method is used to find the average weight of persons in the list:
-     */
-    private double updateAverage(){
-        if(persons.isEmpty()){
-            return 0.0;
-        }
-
-        double sum = 0.0;
-        for(var i=0; i<persons.size(); i++){
-            sum+=persons.get(i).weight;
-        }
-        return (sum/persons.size());
-    }
-
-    /**
      This method is used to find the name of the most occuring person in the list:
      */
     private String mostOccuring(){
         if(persons.isEmpty()){
             return "None";
         }
-
 
         //Keep track of highest count
         int highestOccCount = 0;
