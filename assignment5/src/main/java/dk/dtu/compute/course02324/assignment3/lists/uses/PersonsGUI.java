@@ -41,6 +41,8 @@ public class PersonsGUI extends GridPane {
     private Label averageLabel = new Label("Average weight is 0.00kg");
     private Label mostOccuringLabel = new Label("Most occuring: " + "");
     private Label exceptionLabel = new Label("");
+    private Label minAgeLabel = new Label("Min age: ");
+    private Label maxAgeLabel = new Label("Max age: ");
 
     /**
      * Constructor which sets up the GUI attached a list of persons.
@@ -138,7 +140,11 @@ public class PersonsGUI extends GridPane {
 
         //Average & Most occuring name
         VBox averageAndMostOccBox = new VBox(averageLabel, mostOccuringLabel);
-        averageAndMostOccBox.setSpacing(5.0);
+        averageAndMostOccBox.setSpacing(1.0);
+        VBox minAndMaxBox = new VBox(minAgeLabel, maxAgeLabel);
+        minAndMaxBox.setSpacing(1.0);
+
+        HBox infoLabels = new HBox(averageAndMostOccBox, minAndMaxBox);
 
         //Name & Weight Field box UI
             //Name
@@ -161,7 +167,7 @@ public class PersonsGUI extends GridPane {
             atGivenIndexBox.setSpacing(5.0);
 
         //Main vertical box (left)
-        VBox actionBox = new VBox(nameWeightAgeBox, addButton, atGivenIndexBox, sortButton, clearButton, averageAndMostOccBox);
+        VBox actionBox = new VBox(nameWeightAgeBox, addButton, atGivenIndexBox, sortButton, clearButton, infoLabels);
         actionBox.setSpacing(10.0);
         this.add(actionBox, 0, 0);
 
@@ -226,6 +232,18 @@ public class PersonsGUI extends GridPane {
         //Update most occuring
         String mostOcc = mostOccuring();
         mostOccuringLabel.setText(String.format("Most occuring name:\n %s", mostOcc));
+
+        //Update min and max with stream
+        maxAgeLabel.setText("Max age: " + persons.stream()
+                .mapToInt(person -> person.getAge() )
+                .max()
+        );
+
+        minAgeLabel.setText("Min age: " + persons.stream()
+                .mapToInt(person -> person.getAge())
+                .min()
+        );
+
 
     }
 
