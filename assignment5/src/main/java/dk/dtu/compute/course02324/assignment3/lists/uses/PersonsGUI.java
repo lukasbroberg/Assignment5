@@ -227,9 +227,10 @@ public class PersonsGUI extends GridPane {
         exceptionLabel.setText("");
 
         //Update average
-        averageLabel.setText(String.format("Average weight:\n %.2f kg", (persons.stream()
-                .mapToDouble(persons -> persons.weight)
-                .sum())/ persons.size()
+        averageLabel.setText(String.format("Average weight:\n %.2f kg", (
+                persons.stream()
+                .mapToDouble(Person::getWeight)
+                .sum() ) / persons.size()
         ));
         //Update most occuring
         String mostOcc = mostOccuring();
@@ -237,13 +238,15 @@ public class PersonsGUI extends GridPane {
 
         //Update min and max with stream
         maxAgeLabel.setText("Max age: " + persons.stream()
-                .mapToInt(person -> person.getAge())
+                .mapToInt(Person::getAge)
                 .max()
+                .orElse(0)
         );
 
         minAgeLabel.setText("Min age: " + persons.stream()
-                .mapToInt(person -> person.getAge())
+                .mapToInt(Person::getAge)
                 .min()
+                .orElse(0)
         );
 
 
