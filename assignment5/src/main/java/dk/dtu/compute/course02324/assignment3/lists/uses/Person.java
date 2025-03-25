@@ -6,7 +6,7 @@ public class Person implements Comparable<Person> {
 
     final public String name;
 
-    final public double weight;
+    private double weight;
 
     private int age;
 
@@ -40,6 +40,7 @@ public class Person implements Comparable<Person> {
     public double getWeight(){
         return weight;
     }
+    public void setWeight(double weight){this.weight = weight;}
 
     public int getAge(){
         return this.age;
@@ -59,7 +60,9 @@ public class Person implements Comparable<Person> {
         // This could be automatically generated, but this automatically
         // generated representation is a bit too verbose. Therefore, we
         // chose a simpler representation here.
-        return name + ", " + weight + "kg, age: " + age;
+        String weightStr = String.format("%.2f", weight);
+        return name + ", " + weightStr +
+                "kg" + ", age: " + age;
     }
 
     /*

@@ -3,8 +3,8 @@ package dk.dtu.compute.course02324.assignment3.lists.uses;
 
 import dk.dtu.compute.course02324.assignment3.lists.implementations.GenericComparator;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -14,9 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import javax.validation.constraints.NotNull;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * A GUI element that is allows the user to interact and
@@ -36,7 +34,7 @@ public class PersonsGUI extends GridPane {
     private int weightCount = 1;
 
     /**
-     Initialize average, most occuring and exception label, to handle updated values later.
+     * Initialize average, most occuring and exception label, to handle updated values later.
      */
     private Label averageLabel = new Label("Average weight is 0.00kg");
     private Label mostOccuringLabel = new Label("Most occuring: " + "");
@@ -77,13 +75,13 @@ public class PersonsGUI extends GridPane {
         Button addButton = new Button("Add at the end of list");
         addButton.setOnAction(
                 e -> {
-                    try{
+                    try {
                         Person person = new Person(field.getText(), Double.parseDouble(weightField.getText()), Integer.parseInt(ageField.getText()));
                         //Person person = new Person(field.getText(), weightCount++);
                         persons.add(person);
                         // makes sure that the GUI is updated accordingly
                         update();
-                    }catch(Exception err){
+                    } catch (Exception err) {
                         exceptionLabel.setText("Exception: " + err);
                         System.out.println("Exception" + err);
                     }
@@ -93,14 +91,13 @@ public class PersonsGUI extends GridPane {
         Button AddOnIndexButton = new Button("Add at index: ");
         AddOnIndexButton.setOnAction(
                 e -> {
-                    try{
+                    try {
                         //Define new person
-                        Person person = new Person(field.getText(), Double.parseDouble(weightField.getText()),Integer.parseInt(ageField.getText()));
+                        Person person = new Person(field.getText(), Double.parseDouble(weightField.getText()), Integer.parseInt(ageField.getText()));
                         //Add at given index
                         persons.add(Integer.parseInt(givenIndexField.getText()), person);
                         update();
-                    }
-                    catch(Exception err){
+                    } catch (Exception err) {
                         exceptionLabel.setText("Exception: " + err);
                         System.out.println(err);
                     }
@@ -115,11 +112,11 @@ public class PersonsGUI extends GridPane {
         Button sortButton = new Button("Sort");
         sortButton.setOnAction(
                 e -> {
-                    try{
+                    try {
                         persons.sort(comparator);
                         // makes sure that the GUI is updated accordingly
                         update();
-                    }catch(Exception err){
+                    } catch (Exception err) {
                         exceptionLabel.setText("Exception: " + err);
                         System.out.println(err);
                     }
@@ -134,6 +131,16 @@ public class PersonsGUI extends GridPane {
                     // makes sure that the GUI is updated accordingly
                     update();
                 });
+        Button timePassButton = new Button("Time pass");
+        timePassButton.setOnAction(
+                e -> {
+                    persons.stream().forEach(p -> p.setAge(p.getAge() + 1));
+                    persons.stream().filter(p -> p.getAge() > 30)
+                            .forEach(p -> p.setWeight(p.getWeight() * 1.08));
+                    persons.removeIf(p -> p.getAge() > 99);
+                    update();
+                }
+        );
 
         // combines the above elements into vertically arranged boxes
         // which are then added to the left column of the grid pane
@@ -147,27 +154,27 @@ public class PersonsGUI extends GridPane {
         HBox infoLabels = new HBox(averageAndMostOccBox, minAndMaxBox);
 
         //Name & Weight Field box UI
-            //Name
-            Label labelName = new Label("Name");
-            VBox nameBox = new VBox(labelName, field);
-            //Weight
-            Label labelWeight = new Label("Weight");
-            VBox weightBox = new VBox(labelWeight, weightField);
+        //Name
+        Label labelName = new Label("Name");
+        VBox nameBox = new VBox(labelName, field);
+        //Weight
+        Label labelWeight = new Label("Weight");
+        VBox weightBox = new VBox(labelWeight, weightField);
 
-            //Age
-            Label labelAge = new Label("Age");
-            VBox ageBox = new VBox(labelAge, ageField);
+        //Age
+        Label labelAge = new Label("Age");
+        VBox ageBox = new VBox(labelAge, ageField);
 
-            //Combined
-            HBox nameWeightAgeBox = new HBox(nameBox, weightBox, ageBox);
+        //Combined
+        HBox nameWeightAgeBox = new HBox(nameBox, weightBox, ageBox);
         nameWeightAgeBox.setSpacing(5.0);
 
         //At given indedx UI
-            HBox atGivenIndexBox = new HBox(AddOnIndexButton, givenIndexField);
-            atGivenIndexBox.setSpacing(5.0);
+        HBox atGivenIndexBox = new HBox(AddOnIndexButton, givenIndexField);
+        atGivenIndexBox.setSpacing(5.0);
 
         //Main vertical box (left)
-        VBox actionBox = new VBox(nameWeightAgeBox, addButton, atGivenIndexBox, sortButton, clearButton, infoLabels);
+        VBox actionBox = new VBox(nameWeightAgeBox, addButton, atGivenIndexBox, sortButton, clearButton,timePassButton, infoLabels);
         actionBox.setSpacing(10.0);
         this.add(actionBox, 0, 0);
 
@@ -207,7 +214,7 @@ public class PersonsGUI extends GridPane {
         personsPane.getChildren().clear();
         // adds all persons to the list in the personsPane (with
         // a delete button in front of it)
-        for (int i=0; i < persons.size(); i++) {
+        for (int i = 0; i < persons.size(); i++) {
             Person person = persons.get(i);
             Label personLabel = new Label(i + ": " + person.toString());
             Button deleteButton = new Button("Delete");
@@ -227,10 +234,12 @@ public class PersonsGUI extends GridPane {
         exceptionLabel.setText("");
 
         //Update average
+
         averageLabel.setText(String.format("Average weight:\n %.2f kg", (
                 persons.stream()
                 .mapToDouble(Person::getWeight)
                 .sum() ) / persons.size()
+
         ));
         //Update most occuring
         String mostOcc = mostOccuring();
@@ -253,38 +262,48 @@ public class PersonsGUI extends GridPane {
     }
 
     /**
-     This method is used to find the name of the most occuring person in the list:
+     * This method is used to find the name of the most occuring person in the list:
      */
-    private String mostOccuring(){
-        if(persons.isEmpty()){
-            return "None";
-        }
-
-        //Keep track of highest count
-        int highestOccCount = 0;
-        var highestCountName = "None";
-
-        //Iterate through all persons
-        for(var i=0; i< persons.size(); i++){
-            int occCount = 0;
-
-            //Check occurences in list (compare name)
-            for(var j=0; j< persons.size(); j++){
-                if(persons.get(i).name.equals(persons.get(j).name)){
-                    occCount++;
-                }
-            }
-
-            //Check if occurs more than highest occurence
-            if(occCount>highestOccCount){
-                highestOccCount=occCount;
-                highestCountName=persons.get(i).name;
-            }
-        }
-
-        //Return name with most occurences
-        return highestCountName;
-
+    private String mostOccuring() {
+        return persons.stream()
+                .collect(Collectors.groupingBy(
+                        p -> p.getName(), Collectors.counting()
+                ))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("None");
     }
+
+//        if (persons.isEmpty()) {
+//            return "None";
+//        }
+//
+//        //Keep track of highest count
+//        int highestOccCount = 0;
+//        var highestCountName = "None";
+//
+//        //Iterate through all persons
+//        for (var i = 0; i < persons.size(); i++) {
+//            int occCount = 0;
+//
+//            //Check occurences in list (compare name)
+//            for (var j = 0; j < persons.size(); j++) {
+//                if (persons.get(i).name.equals(persons.get(j).name)) {
+//                    occCount++;
+//                }
+//            }
+//
+//            //Check if occurs more than highest occurence
+//            if (occCount > highestOccCount) {
+//                highestOccCount = occCount;
+//                highestCountName = persons.get(i).name;
+//            }
+//        }
+//
+//        //Return name with most occurences
+//        return highestCountName;
+
+
 
 }
